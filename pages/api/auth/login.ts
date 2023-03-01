@@ -13,13 +13,13 @@ export default async function loginHandler(
 ) {
     const { user, password } = req.body;
     try {
-        const response: any = await axios.post("", {
+        const response: any = await axios.post(process.env.NEXT_URL_BACKEND!, {
             user: user,
             password: password,
         })
         if (response.status !== 200) return res.json({ message: "Credenciales Invalidas", status: 400 })
         else {
-            const serialized = serialize("myTokenName", response.token, {
+            const serialized = serialize("tokenP", response.token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
                 sameSite: "strict",

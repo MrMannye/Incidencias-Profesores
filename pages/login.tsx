@@ -18,7 +18,7 @@ export default function Login() {
                     <InputLabel htmlFor="outlined-adornment-usuario">Usuario</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
-                        className='text-white'
+                        className=''
                         type="text"
                         startAdornment={
                             <InputAdornment position="start">
@@ -32,7 +32,7 @@ export default function Login() {
                     <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
-                        className='text-white'
+                        className=''
                         type={visibility ? "text" : "password"}
                         startAdornment={
                             <InputAdornment position="start">
