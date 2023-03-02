@@ -1,5 +1,5 @@
 import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
@@ -9,6 +9,12 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 export default function Login() {
 
     const [visibility, setVisibility] = useState(false);
+    const user = useRef("");
+    const password = useRef("");
+
+    const handleSubmit = () => {
+        console.log(user.current,password.current);
+    }
 
     return (
         <div className=' w-screen h-screen flex flex-col items-center justify-center'>
@@ -17,8 +23,9 @@ export default function Login() {
                 <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-usuario">Usuario</InputLabel>
                     <OutlinedInput
-                        id="outlined-adornment-password"
+                        id="outlined-adornment-usuario"
                         className=''
+                        onChange={(e) => user.current = e.target.value}
                         type="text"
                         startAdornment={
                             <InputAdornment position="start">
@@ -33,6 +40,7 @@ export default function Login() {
                     <OutlinedInput
                         id="outlined-adornment-password"
                         className=''
+                        onChange={(e) => password.current = e.target.value}
                         type={visibility ? "text" : "password"}
                         startAdornment={
                             <InputAdornment position="start">
@@ -51,7 +59,7 @@ export default function Login() {
                         label="Contraseña"
                     />
                 </FormControl>
-                <button className='py-3 px-20 rounded-lg bg-orange-400 tracking-wider'>Login</button>
+                <button onClick={() => handleSubmit()} className='py-3 px-20 rounded-lg bg-orange-400 tracking-wider'>Login</button>
             </div>
         </div>
     )
