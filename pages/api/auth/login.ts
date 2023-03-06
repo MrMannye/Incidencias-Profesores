@@ -17,7 +17,8 @@ export default async function loginHandler(
             user: user,
             password: password,
         })
-        if (response.status !== 200) return res.json({ message: "Credenciales Invalidas", status: 400 })
+        console.log(response)
+        if (!response.token) return res.json({ message: "Credenciales Invalidas", status: 400 })
         else {
             const serialized = serialize("tokenP", response.token, {
                 httpOnly: true,

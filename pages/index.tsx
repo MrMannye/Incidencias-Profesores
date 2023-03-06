@@ -4,28 +4,32 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Skeleton } from '@mui/material';
 
+interface Task {
+  _id?: number,
+  materia?: string,
+  grupo?: string,
+  nombre_profesor?: string,
+  dia?: string,
+  horario?: string,
+  mensaje?: string
+}
 
 export default function Home() {
 
-  const [tasks, setTasks] = useState({ "documents": [{ "_id": "63fcc4f253a94da086f96d1f", "mensaje": "dwaedawdaw", "nombre_profesor": "", "grupo": "", "materia": "", "clase": { "$timestamp": "0" }, "chat_id": "", "enviado": false }, { "_id": "63fcce9de24a372b797b0d7b", "mensaje": "No hay clase", "nombre_profesor": "Noe", "grupo": "2TM2", "horario": "8:30", "dia": "lunes", "materia": "Aplicaciones" }, { "_id": "63fccefbe24a372b797b0d7c", "mensaje": "Llegar 10 min antes", "nombre_profesor": "Zavala", "grupo": "2TM2", "horario": "10:00", "dia": "lunes", "materia": "Procesamiento de señales" }, { "_id": "63fccf7589227d0020b96614", "mensaje": null, "nombre_profesor": null, "grupo": null, "horario": null, "dia": null, "materia": null }, { "_id": "63fccff46b21209cc96b21a2", "mensaje": "No habra practica", "nombre_profesor": "Cyntia", "grupo": "2TM4", "horario": "7:00", "dia": "miercoles", "materia": "Protocolos" }, { "_id": "63fcd0306b21209cc96b21a3", "mensaje": "No habra practica", "nombre_profesor": "Noe", "grupo": "2TM4", "horario": "7:00", "dia": "miercoles", "materia": "Sistemas distribuidos" }, { "_id": "63ff560e1a8d5bf3610b90bd", "mensaje": "", "nombre_profesor": "", "grupo": "", "horario": "", "dia": "", "materia": "" }] });
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [prueba, setPrueba] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get("https://apptelegram.repl.co/");
-        console.log(response.data.documents);
-      } catch (error) {
-        console.log(error);
-      }
-    })
-  },[tasks])
+    async function getTasks():Promise<Task[]>{
+      const response = await axios.get("https://apptelegram.repl.co/");
+      console.log(response.data.documents);
+      return response.data.documents;
+    }
+    console.log("Miguel");
+    const response = getTasks().then(response => response);
+    console.log(response);
+  }, [tasks])
 
-  useEffect(() => {
-    setTimeout(() => {
-      setPrueba(true);
-    },3000)
-  },[])
 
   return (
     <div className=''>
@@ -37,7 +41,7 @@ export default function Home() {
       </Head>
       <main className='p-4 flex flex-col items-start mb-24'>
         {prueba ? (
-          tasks.documents.map((card) => {
+          tasks?.map((card) => {
             return (
               <div key={card._id} className="p-4 shadow-lg w-full border">
                 <h2 className='font-semibold text-xl'> {card.materia} - {card.grupo}</h2>
@@ -50,7 +54,7 @@ export default function Home() {
             )
           })
         ) : (
-          [1, 2, 3, 4, 5, 6,7].map(task => {
+          [1, 2, 3, 4, 5, 6, 7].map(task => {
             return (
               <Skeleton key={task} variant="rectangular" className='w-full my-3' height={80} />
             )
