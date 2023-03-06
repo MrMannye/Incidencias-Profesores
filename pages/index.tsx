@@ -3,29 +3,25 @@ import NavBar from '@/components/NavBar'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Skeleton } from '@mui/material';
-
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import Link from 'next/link';
 
 export default function Home() {
 
-  const [tasks, setTasks] = useState({ "documents": [{ "_id": "63fcc4f253a94da086f96d1f", "mensaje": "dwaedawdaw", "nombre_profesor": "", "grupo": "", "materia": "", "clase": { "$timestamp": "0" }, "chat_id": "", "enviado": false }, { "_id": "63fcce9de24a372b797b0d7b", "mensaje": "No hay clase", "nombre_profesor": "Noe", "grupo": "2TM2", "horario": "8:30", "dia": "lunes", "materia": "Aplicaciones" }, { "_id": "63fccefbe24a372b797b0d7c", "mensaje": "Llegar 10 min antes", "nombre_profesor": "Zavala", "grupo": "2TM2", "horario": "10:00", "dia": "lunes", "materia": "Procesamiento de señales" }, { "_id": "63fccf7589227d0020b96614", "mensaje": null, "nombre_profesor": null, "grupo": null, "horario": null, "dia": null, "materia": null }, { "_id": "63fccff46b21209cc96b21a2", "mensaje": "No habra practica", "nombre_profesor": "Cyntia", "grupo": "2TM4", "horario": "7:00", "dia": "miercoles", "materia": "Protocolos" }, { "_id": "63fcd0306b21209cc96b21a3", "mensaje": "No habra practica", "nombre_profesor": "Noe", "grupo": "2TM4", "horario": "7:00", "dia": "miercoles", "materia": "Sistemas distribuidos" }, { "_id": "63ff560e1a8d5bf3610b90bd", "mensaje": "", "nombre_profesor": "", "grupo": "", "horario": "", "dia": "", "materia": "" }] });
+  const [tasks, setTasks] = useState([]);
   const [prueba, setPrueba] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get("https://apptelegram.repl.co/");
-        console.log(response.data.documents);
-      } catch (error) {
-        console.log(error);
-      }
-    })
-  },[tasks])
-
-  useEffect(() => {
-    setTimeout(() => {
+    axios.get(process.env.NEXT_URL_BACKEND! || "https://apptelegram.repl.co/").then(response => {
+      console.log(response.data.documents);
+      setTasks(response.data.documents);
       setPrueba(true);
-    },3000)
-  },[])
+    }).catch(error => {
+      console.log(error);
+    })
+  }, [])
+
 
   return (
     <div className=''>
@@ -37,7 +33,7 @@ export default function Home() {
       </Head>
       <main className='p-4 flex flex-col items-start mb-24'>
         {prueba ? (
-          tasks.documents.map((card) => {
+          tasks?.map((card: any) => {
             return (
               <div key={card._id} className="p-4 shadow-lg w-full border">
                 <h2 className='font-semibold text-xl'> {card.materia} - {card.grupo}</h2>
@@ -50,13 +46,20 @@ export default function Home() {
             )
           })
         ) : (
-          [1, 2, 3, 4, 5, 6,7].map(task => {
+          [1, 2, 3, 4, 5, 6, 7].map(task => {
             return (
               <Skeleton key={task} variant="rectangular" className='w-full my-3' height={80} />
             )
           })
         )
         }
+        <div className='fixed bottom-28 right-5'>
+          <Link href={"/addTask"}>
+            <Fab size="large" className='bg-red-700' aria-label="add">
+              <AddIcon className='text-white' />
+            </Fab>
+          </Link>
+        </div>
       </main>
       <NavBar />
     </div>

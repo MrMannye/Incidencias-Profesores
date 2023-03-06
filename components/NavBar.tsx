@@ -51,7 +51,7 @@ export default function NavBar() {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
           >
-            <Avatar sx={{ width: 36, height: 36 }} alt="Miguel A" src='hola' />
+            <Avatar sx={{ width: 36, height: 36 }} className="bg-red-700" alt="Miguel A" src='hola' />
           </StyledBadge>
           <span>Perfil</span>
         </div>

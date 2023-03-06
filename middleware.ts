@@ -18,5 +18,5 @@ export async function middleware(req : NextRequest, res: NextResponse){
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: ['/profile'],
+    matcher: ['/',"/profile","/addTask"],
   }
