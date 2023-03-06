@@ -5,15 +5,30 @@ import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 export default function Login() {
 
     const [visibility, setVisibility] = useState(false);
     const user = useRef("");
     const password = useRef("");
+    const router = useRouter();
 
     const handleSubmit = () => {
-        console.log(user.current,password.current);
+        axios.post("/api/auth/login",{
+            user: user,
+            password: password
+        }).then((result) => {
+            console.log(result)
+            if(result.data.status !== 200) alert("Error en el servidor")
+            else {
+                alert("Credenciales Aceptadas");
+                router.push("/");
+            }
+        }).catch((err) => {
+            console.log(err)
+        });
     }
 
     return (
