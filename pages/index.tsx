@@ -3,6 +3,12 @@ import NavBar from '@/components/NavBar'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Skeleton } from '@mui/material';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import Link from 'next/link';
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store/store';
+
 
 interface Task {
   _id?: number,
@@ -18,17 +24,19 @@ export default function Home() {
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [prueba, setPrueba] = useState(false);
+  const user = useSelector((state: RootState) => state.user)
+  
 
   useEffect(() => {
-    async function getTasks():Promise<Task[]>{
-      const response = await axios.get("https://apptelegram.repl.co/");
+    axios.get(process.env.NEXT_URL_BACKEND! || "https://apptelegram.repl.co/").then(response => {
       console.log(response.data.documents);
-      return response.data.documents;
-    }
-    console.log("Miguel");
-    const response = getTasks().then(response => response);
-    console.log(response);
-  }, [tasks])
+      setTasks(response.data.documents);
+      setPrueba(true);
+      console.log(user)
+    }).catch(error => {
+      console.log(error);
+    })
+  }, [])
 
 
   return (
@@ -41,7 +49,7 @@ export default function Home() {
       </Head>
       <main className='p-4 flex flex-col items-start mb-24'>
         {prueba ? (
-          tasks?.map((card) => {
+          tasks?.map((card: any) => {
             return (
               <div key={card._id} className="p-4 shadow-lg w-full border">
                 <h2 className='font-semibold text-xl'> {card.materia} - {card.grupo}</h2>
@@ -61,6 +69,13 @@ export default function Home() {
           })
         )
         }
+        <div className='fixed bottom-28 right-5'>
+          <Link href={"/addTask"}>
+            <Fab size="large" className='bg-red-700' aria-label="add">
+              <AddIcon className='text-white' />
+            </Fab>
+          </Link>
+        </div>
       </main>
       <NavBar />
     </div>

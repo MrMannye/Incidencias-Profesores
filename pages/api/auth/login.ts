@@ -2,7 +2,14 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { serialize } from "cookie";
 import axios from "axios"
 
+interface User{
+    first_name: string,
+    last_name: string,
+    email: string
+}
+
 type Data = {
+    user?: User
     message: string
     status: number
 }
@@ -13,14 +20,14 @@ export default async function loginHandler(
 ) {
     const { user, password } = req.body;
     try {
-        const response: any = await axios.post(process.env.NEXT_URL_BACKEND!, {
-            user: user,
-            password: password,
+        const response: any = await axios.post("https://apptelegram.repl.co/login", {
+            email: user.current,
+            password: password.current,
         })
         console.log(response)
-        if (!response.token) return res.json({ message: "Credenciales Invalidas", status: 400 })
+        if (!response.data.token) return res.json({ message: "Credenciales Invalidas", status: 400 })
         else {
-            const serialized = serialize("tokenP", response.token, {
+            const serialized = serialize("tokenP", response.data.token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
                 sameSite: "strict",
@@ -28,9 +35,9 @@ export default async function loginHandler(
                 path: "/",
             });
             res.setHeader("Set-Cookie", serialized);
-            return res.json({message: "Credenciales Validas", status: 200});
+            return res.json({message: "Credenciales Validas",user: {first_name: response.data.first_name, last_name: response.data.last_name, email: response.data.email}, status: 200});
         }
     } catch (e) {
-        res.json({ message: "Ocurrio un error", status: 404 });
+        return res.json({ message: "Ocurrio un error " + e, status: 404 });
     }
 }

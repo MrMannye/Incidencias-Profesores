@@ -1,34 +1,38 @@
 import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux'
 
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
+import { saveUser } from '@/features/user/userSlice';
 
 export default function Login() {
 
     const [visibility, setVisibility] = useState(false);
+    const dispatch = useDispatch();
+    const user = useRef("");
+    const password = useRef("");
     const router = useRouter();
-    const [user, setUser] = useState("");
-    const [password, setPassword] = useState("");
 
-    const handleSubmit = async () => {
-        if(user !== "" && password !== ""){
-            const response = await axios.post("/api/auth/login", {user: user, password: password});
-            console.log(response)
-            if(response.data.status !== 200){
-                alert("Credenciales incorrectas");
-            }else{
-                alert("Credenciles correctas")
+    const handleSubmit = () => {
+        axios.post("/api/auth/login",{
+            user: user,
+            password: password
+        }).then((result) => {
+            console.log(result)
+            if(result.data.status !== 200) alert("Error en el servidor")
+            else {
+                alert("Credenciales Aceptadas");
+                dispatch(saveUser(result.data.user))
                 router.push("/");
             }
-        }
-        else{
-            console.log("Debe rellenar los campos");
-        }
+        }).catch((err) => {
+            console.log(err)
+        });
     }
 
     return (
@@ -40,7 +44,7 @@ export default function Login() {
                     <OutlinedInput
                         id="outlined-adornment-usuario"
                         className=''
-                        onChange={(e) => setUser((e.target.value))}
+                        onChange={(e) => user.current = e.target.value}
                         type="text"
                         startAdornment={
                             <InputAdornment position="start">
@@ -49,14 +53,14 @@ export default function Login() {
                         }
                         label="Usuario"
                     />
-                    {user === "" && (<span className='text-red-600'>Este campo es obligatorio</span>)}
+                    {/* {user.current === "" && (<span className='text-red-600'>Este campo es obligatorio</span>)} */}
                 </FormControl>
                 <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
                         className=''
-                        onChange={(e) => setPassword((e.target.value))}
+                        onChange={(e) => password.current = e.target.value}
                         type={visibility ? "text" : "password"}
                         startAdornment={
                             <InputAdornment position="start">
@@ -74,7 +78,7 @@ export default function Login() {
                         }
                         label="Contraseña"
                     />
-                    {password === "" && (<span className='text-red-600'>Este campo es obligatorio</span>)}
+                    {/* {password.current === "" && (<span className='text-red-600'>Este campo es obligatorio</span>)} */}
                 </FormControl>
                 <button onClick={() => handleSubmit()} className='py-3 px-20 rounded-lg bg-orange-400 tracking-wider'>Login</button>
             </div>
