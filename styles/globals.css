@@ -86,11 +86,11 @@
 @layer base {
   .login{
     color: white;
-    background-image: url("../public/ipn.png");
+    background-image: url("../public/logo.png");
     background-position: center;
     background-size: contain;
-    width: 150px;
-    height: 150px;
+    width: 250px;
+    height: 250px;
     background-repeat: no-repeat;
   }
 }

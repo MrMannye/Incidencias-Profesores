@@ -19,7 +19,7 @@ interface Event {
   fecha_evento: Date,
 }
 
-export default function Home() {
+export default function MisEventos() {
 
   const [eventos, setEventos] = useState<Event[]>([]);
   const [prueba, setPrueba] = useState(false);
@@ -27,7 +27,9 @@ export default function Home() {
   const colorsBackground = ["from-cyan-300 to-blue-300", "from-indigo-300 to-pink-300", "from-indigo-300 from-cyan-300", "from-blue-400 to-orange-200", "from-purple-400 to-yellow-200", "from-cyan-400 to-blue-400", "from-indigo-400 to-pink-300", "from-indigo-400 from-cyan-400", "from-blue-400 to-orange-200", "from-rose-300 to-yellow-200"]
 
   useEffect(() => {
-    axios.get("https://proactiveweek-superbrandon2018.b4a.run/events").then(response => {
+    axios.post("https://proactiveweek-superbrandon2018.b4a.run/events/miseventos",{
+        id: user?.Id
+    }).then(response => {
       console.log(response.data);
       setEventos(response.data.body);
       setPrueba(true);
@@ -55,7 +57,7 @@ export default function Home() {
         {prueba ? (
           eventos?.map((evento: Event) => {
             return (
-              <Link key={evento.Id} className="w-full" href={`/eventos/${evento.Id}`}>
+              <Link key={evento.Id} className="w-full" href={`/miseventos/${evento.Id}`}>
                 <div className={`p-4 bg-gradient-to-r ${selectColor()} bg-o shadow-xl w-full border rounded-xl text-black`}>
                   <h2 className='font-bold text-xl'> {evento.name_evento}</h2>
                   <div className=''>

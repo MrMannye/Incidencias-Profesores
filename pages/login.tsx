@@ -24,10 +24,10 @@ export default function Login() {
             password: password
         }).then((result) => {
             console.log(result)
-            if(result.data.status !== 200) alert("Error en el servidor")
+            if(result.data.status !== 200) alert(result.data.message)
             else {
-                alert("Credenciales Aceptadas");
-                dispatch(saveUser(result.data.user))
+                alert(result.data.message);
+                dispatch(saveUser(result?.data?.user))
                 router.push("/");
             }
         }).catch((err) => {
@@ -37,8 +37,8 @@ export default function Login() {
 
     return (
         <div className=' w-screen h-screen flex flex-col items-center justify-center'>
+            <h1 className='login tracking-wide text-lg -mb-10'></h1>
             <div className='max-w-sm flex space-y-6 flex-col items-center'>
-                <h1 className='login tracking-wide text-lg'></h1>
                 <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-usuario">Usuario</InputLabel>
                     <OutlinedInput

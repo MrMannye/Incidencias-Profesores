@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link';
 
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import Avatar from '@mui/material/Avatar';
 import styled from '@emotion/styled';
 import { Badge } from '@mui/material';
@@ -41,7 +42,13 @@ export default function NavBar() {
       <Link href={"/"}>
         <div className='flex flex-col items-center'>
           <FormatListBulletedIcon />
-          <span>Menu</span>
+          <span>Eventos</span>
+        </div>
+      </Link>
+      <Link href={"/miseventos"}>
+        <div className='flex flex-col items-center'>
+          <BookmarkAddedIcon />
+          <span>Mis Eventos</span>
         </div>
       </Link>
       <Link href={"/profile"}>
@@ -51,7 +58,7 @@ export default function NavBar() {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
           >
-            <Avatar sx={{ width: 36, height: 36 }} className="bg-red-700" alt="Miguel A" src='hola' />
+            <Avatar sx={{ width: 36, height: 36 }} className="bg-orange-400" alt="Miguel A" src='hola' />
           </StyledBadge>
           <span>Perfil</span>
         </div>
