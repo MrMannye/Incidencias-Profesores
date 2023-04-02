@@ -21,7 +21,7 @@ interface Event {
 }
 
 
-function Evento(props: {}) {
+function MiEvento(props: {}) {
 
     const [evento, setEvento] = useState<Event>();
     const [miseventos, setMiseventos] = useState<Event[]>([])
@@ -54,14 +54,9 @@ function Evento(props: {}) {
             console.log(error);
         })
     }, [])
-    
-    const verifyIsEventAdded = ():boolean => {
-        const foundEvent = miseventos.find(evento => evento.Id === Number(idEvento))
-        return (!foundEvent ? false : true);
-    }
 
-    const handleAddEventUser = () => {
-        axios.post("https://proactiveweek-superbrandon2018.b4a.run/events/addEvent", {
+    const handleDeleteEventUser = () => {
+        axios.post("https://proactiveweek-superbrandon2018.b4a.run/events/deletEventUser", {
             Id_Evento: idEvento,
             Id_Usuario: IdUser
         }).then(response => {
@@ -98,11 +93,11 @@ function Evento(props: {}) {
                     </div>
                     <div className='flex items-center mt-4 space-x-2'>
                         <GroupIcon className='text-orange-400'/>
-                        <span className='font-semibold'>{interesados && `${interesados} estudiantes interesados`}</span>
+                        <span className='font-semibold'>{interesados && `${interesados} estudiantes registrados`}</span>
                     </div>
                     <InterestBar id={evento?.Id} />
                     <h1 className='login'></h1>
-                    <button disabled={verifyIsEventAdded()} onClick={() => handleAddEventUser()} className='py-3 self-center px-20 shadow-lg mt-8 border rounded-lg bg-orange-500 text-white tracking-wider disabled:opacity-50'>Añadir Evento</button>
+                    <button onClick={() => handleDeleteEventUser()} className='py-3 self-center px-20 shadow-lg mt-8 border rounded-lg bg-orange-500 text-white tracking-wider disabled:opacity-50'>Eliminar Evento</button>
                 </div>
                 : (
                     [1, 2, 3, 4, 5, 6, 7].map(task => {
@@ -118,4 +113,4 @@ function Evento(props: {}) {
     )
 }
 
-export default Evento
+export default MiEvento

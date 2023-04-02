@@ -8,6 +8,8 @@ import { Badge, FormControl, InputAdornment, InputLabel, OutlinedInput } from '@
 import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 const StyledBadge:any = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -43,11 +45,7 @@ function Profile() {
 
     const [visibility, setVisibility] = useState(false);
     const [active, setActive] = useState(true);
-    const [user, setUser] = useState({
-        nombre: "Noe",
-        contraseña: "123456789",
-        correo: "noesierra@gmail.com"
-    })
+    const user = useSelector((state: RootState) => state.user)
 
     return (
         <div className=''>
@@ -57,21 +55,20 @@ function Profile() {
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                     variant="dot"
                 >
-                    <Avatar sx={{ width: 100, height: 100, fontSize:40 }} className="bg-red-700" alt={"Noe Sierra"} src='hola' />
+                    <Avatar sx={{ width: 100, height: 100, fontSize:40 }} className="bg-orange-400" alt={user.first_name} src='hola' />
                 </StyledBadge>
                 <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-nombre">Nombre</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-nombre"
                         className=''
-                        defaultValue={user.nombre}
-                        onChange={(e) => user.nombre = e.target.value}
+                        defaultValue={user?.first_name}
                         onKeyUp={() => setActive(false)}
                         // onChange={(e) => user.current = e.target.value}
                         type="text"
                         endAdornment={
                             <InputAdornment position="end">
-                                <PersonIcon className='text-red-700' />
+                                <PersonIcon className='text-orange-400' />
                             </InputAdornment>
                         }
                         label="Materia"
@@ -82,13 +79,12 @@ function Profile() {
                     <OutlinedInput
                         id="outlined-adornment-correo"
                         className='lowercase'
-                        defaultValue={user.correo}
-                        onChange={(e) => user.correo = e.target.value}
+                        defaultValue={user?.email}
                         onKeyUp={() => setActive(false)}
                         type="text"
                         endAdornment={
                             <InputAdornment position="end">
-                                <EmailIcon className='text-red-700' />
+                                <EmailIcon className='text-orange-400' />
                             </InputAdornment>
                         }
                         label="Correo"
@@ -99,19 +95,18 @@ function Profile() {
                     <OutlinedInput
                         id="outlined-adornment-password"
                         className=''
-                        defaultValue={user.contraseña}
-                        onChange={(e) => user.contraseña = e.target.value}
+                        defaultValue={user?.password}
                         onKeyUp={() => setActive(false)}
                         type={visibility ? "text" : "password"}
                         endAdornment={
                             <InputAdornment onClick={() => setVisibility(!visibility)} position="end">
-                                <LockIcon className='text-red-700' />
+                                <LockIcon className='text-orange-400' />
                             </InputAdornment>
                         }
                         label="Contraseña"
                     />
                 </FormControl>
-                <button onClick={() => console.log(user)} className='py-3 px-20 shadow-lg mt-10 border rounded-lg bg-red-700 text-white tracking-wider self-center disabled:opacity-60' disabled={active}>Guardar</button>
+                <button onClick={() => console.log(user)} className='py-3 px-20 shadow-lg mt-10 border rounded-lg bg-orange-400 text-white tracking-wider self-center disabled:opacity-60' disabled={active}>Guardar</button>
             </div>
             <NavBar></NavBar>
         </div>

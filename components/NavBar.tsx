@@ -6,6 +6,9 @@ import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import Avatar from '@mui/material/Avatar';
 import styled from '@emotion/styled';
 import { Badge } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
+import { useRouter } from 'next/router';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -37,22 +40,34 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export default function NavBar() {
+  const user = useSelector((state: RootState) => state.user)
+  const router = useRouter().pathname;
+  console.log(router)
+
+  const listenPathRoute = () => {
+    if(router.includes("/miseventos")){
+      return "miseventos"
+    }else if(router.includes("/") || router.includes("/eventos")){
+      return "eventos"
+    }
+  }
+
   return (
     <div className='w-screen bg-white z-50 p-4 flex fixed bottom-0 items-center justify-around text-xs'>
       <Link href={"/"}>
-        <div className='flex flex-col items-center'>
+        <div className={`flex flex-col items-center ${listenPathRoute() === "eventos" && "text-orange-400"}`}>
           <FormatListBulletedIcon />
           <span>Eventos</span>
         </div>
       </Link>
       <Link href={"/miseventos"}>
-        <div className='flex flex-col items-center'>
+        <div className={`flex flex-col items-center ${listenPathRoute() === "miseventos" && "text-orange-400"}`}>
           <BookmarkAddedIcon />
           <span>Mis Eventos</span>
         </div>
       </Link>
       <Link href={"/profile"}>
-        <div className='flex flex-col items-center'>
+        <div className={`flex flex-col items-center`}>
           <StyledBadge
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -60,7 +75,7 @@ export default function NavBar() {
           >
             <Avatar sx={{ width: 36, height: 36 }} className="bg-orange-400" alt="Miguel A" src='hola' />
           </StyledBadge>
-          <span>Perfil</span>
+          <span>{user?.first_name}</span>
         </div>
       </Link>
     </div>
