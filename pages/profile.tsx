@@ -53,7 +53,7 @@ interface Interest {
 
 function Profile() {
 
-    const [interests, setinterests] = useState<[]>([]);
+    const [interests, setinterests] = useState<Interest[]>([]);
     const intereses = {
         "Programacion": "💻",
         "Escritura": "📝",
