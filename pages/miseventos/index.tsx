@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store/store';
 import InterestBar from '@/components/InterestBar';
+import Header from '@/components/Header';
 
 
 interface Event {
@@ -53,7 +54,8 @@ export default function MisEventos() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className='p-4 from-l flex flex-col items-start mb-24 space-y-2'>
+      <Header/>
+      <main className='p-4 from-l flex flex-col items-start mb-24 mt-12 space-y-2'>
         {prueba ? (
           eventos?.map((evento: Event) => {
             return (

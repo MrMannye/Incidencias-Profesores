@@ -45,9 +45,12 @@ export default function NavBar() {
   console.log(router)
 
   const listenPathRoute = () => {
-    if(router.includes("/miseventos")){
+    if (router.includes("/miseventos")) {
       return "miseventos"
-    }else if(router.includes("/") || router.includes("/eventos")){
+    }else if (router.includes("/eventoshoy")) {
+      return "eventoshoy"
+    } 
+    else if (router.includes("/") || router.includes("/eventos")) {
       return "eventos"
     }
   }
@@ -58,6 +61,12 @@ export default function NavBar() {
         <div className={`flex flex-col items-center ${listenPathRoute() === "eventos" && "text-orange-400"}`}>
           <FormatListBulletedIcon />
           <span>Eventos</span>
+        </div>
+      </Link>
+      <Link href={"/eventoshoy"}>
+        <div className={`flex flex-col items-center ${listenPathRoute() === "eventoshoy" && "text-orange-400"}`}>
+          <FormatListBulletedIcon />
+          <span>Hoy</span>
         </div>
       </Link>
       <Link href={"/miseventos"}>

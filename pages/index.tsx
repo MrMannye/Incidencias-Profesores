@@ -9,6 +9,8 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store/store';
 import InterestBar from '@/components/InterestBar';
+import Header from '@/components/Header';
+import { useRouter } from 'next/router';
 
 
 interface Event {
@@ -20,7 +22,7 @@ interface Event {
 }
 
 export default function Home() {
-
+  
   const [eventos, setEventos] = useState<Event[]>([]);
   const [prueba, setPrueba] = useState(false);
   const user = useSelector((state: RootState) => state.user)
@@ -51,13 +53,20 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className='p-4 from-l flex flex-col items-start mb-24 space-y-2'>
+      <Header />
+      <main className='p-4 from-l flex flex-col items-start mb-24 mt-12 space-y-2'>
         {prueba ? (
           eventos?.map((evento: Event) => {
             return (
               <Link key={evento.Id} className="w-full" href={`/eventos/${evento.Id}`}>
                 <div className={`p-4 bg-gradient-to-r ${selectColor()} bg-o shadow-xl w-full border rounded-xl text-black`}>
-                  <h2 className='font-bold text-xl'> {evento.name_evento}</h2>
+                  <div className='flex justify-between'>
+                    <h2 className='font-bold text-xl'> {evento.name_evento}</h2>
+                    {
+                      new Date().toLocaleDateString() === new Date(evento.fecha_evento).toLocaleDateString() &&
+                      <img src="./icon.png" alt="Evento Hoy" className='w-10 h-10 -mb-2' />
+                    }       
+                  </div>
                   <div className=''>
                     <h4 className='text-lg'>{evento.organizador}</h4>
                     <h5>{new Date(evento.fecha_evento).toLocaleDateString('es-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</h5>

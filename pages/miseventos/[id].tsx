@@ -24,7 +24,6 @@ interface Event {
 function MiEvento(props: {}) {
 
     const [evento, setEvento] = useState<Event>();
-    const [miseventos, setMiseventos] = useState<Event[]>([])
     const [interesados, setInteresados] = useState(0);
     const router = useRouter();
     const idEvento = router.query.id;
@@ -36,14 +35,6 @@ function MiEvento(props: {}) {
             console.log(response.data.body[0]);
             setEvento(response.data.body[0]);
             setPrueba(true);
-        }).catch(error => {
-            console.log(error);
-        })
-        axios.post("https://proactiveweek-superbrandon2018.b4a.run/events/miseventos", {
-            id: IdUser
-        }).then(response => {
-            console.log(response.data.body);
-            setMiseventos(response.data.body);
         }).catch(error => {
             console.log(error);
         })
