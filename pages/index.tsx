@@ -11,7 +11,7 @@ import { RootState } from '@/store/store';
 import InterestBar from '@/components/InterestBar';
 import Header from '@/components/Header';
 import { useRouter } from 'next/router';
-
+import Image from 'next/image';
 
 interface Event {
   Id: number,
@@ -64,7 +64,7 @@ export default function Home() {
                     <h2 className='font-bold text-xl'> {evento.name_evento}</h2>
                     {
                       new Date().toLocaleDateString() === new Date(evento.fecha_evento).toLocaleDateString() &&
-                      <img src="./icon.png" alt="Evento Hoy" className='w-10 h-10 -mb-2' />
+                      <Image src="/icon.png" alt="Evento Hoy" height={20} width={50} className='-mb-2' />
                     }       
                   </div>
                   <div className=''>
