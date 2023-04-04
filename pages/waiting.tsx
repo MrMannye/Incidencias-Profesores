@@ -21,8 +21,8 @@ export default function Waiting() {
           color: isOn ? "#7fffd4" : "#c70f46"
         }}
       >
-        <h1 className="open" children={["<h1>"]}/>
-        <h1 className="close" children={["</h1>"]}/>
+        {/* <h1 className="open" children="<h1>" /> */}
+        {/* <h1 className="close" children="</h1>" /> */}
         <motion.h1 ref={headerRef} />
         <Scene isOn={isOn} setOn={setOn} />
       </motion.div>
