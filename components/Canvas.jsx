@@ -70,56 +70,57 @@ function Switch({ isOn, setOn }) {
 
 export function Scene({ isOn, setOn }) {
   return (
-    <MotionCanvas
-      orthographic
-      shadows
-      dpr={[1, 2]}
-      camera={{ zoom: 60, position: [-5, 5, 5], fov: 90 }}
-    >
-      <motion.group initial={false} animate={isOn ? "on" : "off"}>
-        <ambientLight intensity={0.1} />
-        <directionalLight position={[-20, 20, 20]} intensity={1} />
-        <motion.directionalLight
-          position={[-20, -20, -20]}
-          intensity={0.5}
-          variants={colorVariants}
-        />
-        <motion.pointLight
-          position={[0, 0, 5]}
-          distance={5}
-          intensity={5}
-          variants={colorVariants}
-        />
-        <motion.spotLight
-          variants={colorVariants}
-          position={[10, 20, 20]}
-          angle={0.1}
-          intensity={2}
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
-          shadow-bias={-0.00001}
-          castShadow
-        />
-        <Suspense fallback={null}>
-          <Switch isOn={isOn} setOn={setOn} />
-        </Suspense>
-        <mesh
-          receiveShadow
-          renderOrder={1000}
-          position={[0, 0, 0]}
-          rotation={[-Math.PI / 2, 0, 0]}
-        >
-          <planeGeometry args={[10, 10]} />
-          <motion.shadowMaterial
-            transparent
-            variants={{
-              on: { opacity: 0.1 },
-              off: { opacity: 0.3 }
-            }}
-          />
-        </mesh>
-      </motion.group>
-    </MotionCanvas>
+    <div></div>
+    // <MotionCanvas
+    //   orthographic
+    //   shadows
+    //   dpr={[1, 2]}
+    //   camera={{ zoom: 60, position: [-5, 5, 5], fov: 90 }}
+    // >
+    //   <motion.group initial={false} animate={isOn ? "on" : "off"}>
+    //     <ambientLight intensity={0.1} />
+    //     <directionalLight position={[-20, 20, 20]} intensity={1} />
+    //     <motion.directionalLight
+    //       position={[-20, -20, -20]}
+    //       intensity={0.5}
+    //       variants={colorVariants}
+    //     />
+    //     <motion.pointLight
+    //       position={[0, 0, 5]}
+    //       distance={5}
+    //       intensity={5}
+    //       variants={colorVariants}
+    //     />
+    //     <motion.spotLight
+    //       variants={colorVariants}
+    //       position={[10, 20, 20]}
+    //       angle={0.1}
+    //       intensity={2}
+    //       shadow-mapSize-width={2048}
+    //       shadow-mapSize-height={2048}
+    //       shadow-bias={-0.00001}
+    //       castShadow
+    //     />
+    //     <Suspense fallback={null}>
+    //       <Switch isOn={isOn} setOn={setOn} />
+    //     </Suspense>
+    //     <mesh
+    //       receiveShadow
+    //       renderOrder={1000}
+    //       position={[0, 0, 0]}
+    //       rotation={[-Math.PI / 2, 0, 0]}
+    //     >
+    //       <planeGeometry args={[10, 10]} />
+    //       <motion.shadowMaterial
+    //         transparent
+    //         variants={{
+    //           on: { opacity: 0.1 },
+    //           off: { opacity: 0.3 }
+    //         }}
+    //       />
+    //     </mesh>
+    //   </motion.group>
+    // </MotionCanvas>
   )
 }
 
