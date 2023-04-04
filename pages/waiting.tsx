@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { motion, MotionConfig } from "framer-motion"
 import { useAnimatedText } from "../hooks/use-animated-text"
-import { Scene } from "../components/Canvas"
+// import { Scene } from "../components/Canvas"
 import { transition } from "../components/Transition"
 
 
