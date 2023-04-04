@@ -10,8 +10,8 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/store/store';
 import InterestBar from '@/components/InterestBar';
 import Header from '@/components/Header';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 interface Event {
   Id: number,
@@ -22,7 +22,7 @@ interface Event {
 }
 
 export default function Home() {
-  
+
   const [eventos, setEventos] = useState<Event[]>([]);
   const [prueba, setPrueba] = useState(false);
   const user = useSelector((state: RootState) => state.user)
@@ -58,23 +58,29 @@ export default function Home() {
         {prueba ? (
           eventos?.map((evento: Event) => {
             return (
-              <Link key={evento.Id} className="w-full" href={`/eventos/${evento.Id}`}>
-                <div className={`p-4 bg-gradient-to-r ${selectColor()} bg-o shadow-xl w-full border rounded-xl text-black`}>
-                  <div className='flex justify-between'>
-                    <h2 className='font-bold text-xl'> {evento.name_evento}</h2>
-                    {
-                      new Date().toLocaleDateString() === new Date(evento.fecha_evento).toLocaleDateString() &&
-                      <Image src="/icon.png" alt="Evento Hoy" height={20} width={50} className='-mb-2' />
-                    }       
+              <motion.div 
+                className="w-full"
+                drag
+                dragConstraints={{left:0 , top:0, right:0, bottom:0}}
+                dragElastic={1}
+              >
+                <Link key={evento.Id} href={`/eventos/${evento.Id}`}>
+                  <div className={`p-4 bg-gradient-to-r ${selectColor()} bg-o shadow-xl w-full border rounded-xl text-black`}>
+                    <div className='flex justify-between'>
+                      <h2 className='font-bold text-xl'> {evento.name_evento}</h2>
+                      {
+                        new Date().toLocaleDateString() === new Date(evento.fecha_evento).toLocaleDateString() &&
+                        <Image src="/icon.png" alt="Evento Hoy" height={20} width={50} className='-mb-2' />
+                      }
+                    </div>
+                    <div className=''>
+                      <h4 className='text-lg'>{evento.organizador}</h4>
+                      <h5>{new Date(evento.fecha_evento).toLocaleDateString('es-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</h5>
+                      <InterestBar id={evento.Id} />
+                    </div>
                   </div>
-                  <div className=''>
-                    <h4 className='text-lg'>{evento.organizador}</h4>
-                    <h5>{new Date(evento.fecha_evento).toLocaleDateString('es-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</h5>
-                    <InterestBar id={evento.Id} />
-                  </div>
-                </div>
-              </Link>
-
+                </Link>
+              </motion.div>
             )
           })
         ) : (

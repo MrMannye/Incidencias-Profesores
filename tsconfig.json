@@ -19,6 +19,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/Canvas.jsx", "hooks/use-animated-text.jsx"],
   "exclude": ["node_modules"]
 }

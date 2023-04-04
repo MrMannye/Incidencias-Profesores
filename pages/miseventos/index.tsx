@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Skeleton } from '@mui/material';
 import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store/store';
 import InterestBar from '@/components/InterestBar';
 import Header from '@/components/Header';
-
+import { motion } from 'framer-motion';
 
 interface Event {
   Id: number,
@@ -28,8 +28,8 @@ export default function MisEventos() {
   const colorsBackground = ["from-cyan-300 to-blue-300", "from-indigo-300 to-pink-300", "from-indigo-300 from-cyan-300", "from-blue-400 to-orange-200", "from-purple-400 to-yellow-200", "from-cyan-400 to-blue-400", "from-indigo-400 to-pink-300", "from-indigo-400 from-cyan-400", "from-blue-400 to-orange-200", "from-rose-300 to-yellow-200"]
 
   useEffect(() => {
-    axios.post("https://proactiveweek-superbrandon2018.b4a.run/events/miseventos",{
-        id: user?.Id
+    axios.post("https://proactiveweek-superbrandon2018.b4a.run/events/miseventos", {
+      id: user?.Id
     }).then(response => {
       console.log(response.data);
       setEventos(response.data.body);
@@ -54,22 +54,28 @@ export default function MisEventos() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header/>
+      <Header />
       <main className='p-4 from-l flex flex-col items-start mb-24 mt-12 space-y-2'>
         {prueba ? (
           eventos?.map((evento: Event) => {
             return (
-              <Link key={evento.Id} className="w-full" href={`/miseventos/${evento.Id}`}>
-                <div className={`p-4 bg-gradient-to-r ${selectColor()} bg-o shadow-xl w-full border rounded-xl text-black`}>
-                  <h2 className='font-bold text-xl'> {evento.name_evento}</h2>
-                  <div className=''>
-                    <h4 className='text-lg'>{evento.organizador}</h4>
-                    <h5>{new Date(evento.fecha_evento).toLocaleDateString('es-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</h5>
-                    <InterestBar id={evento.Id} />
+              <motion.div
+                className="w-full"
+                drag
+                dragConstraints={{ left: 0, top: 0, right: 0, bottom: 0 }}
+                dragElastic={1}
+              >
+                <Link key={evento.Id} className="w-full" href={`/miseventos/${evento.Id}`}>
+                  <div className={`p-4 bg-gradient-to-r ${selectColor()} bg-o shadow-xl w-full border rounded-xl text-black`}>
+                    <h2 className='font-bold text-xl'> {evento.name_evento}</h2>
+                    <div className=''>
+                      <h4 className='text-lg'>{evento.organizador}</h4>
+                      <h5>{new Date(evento.fecha_evento).toLocaleDateString('es-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</h5>
+                      <InterestBar id={evento.Id} />
+                    </div>
                   </div>
-                </div>
-              </Link>
-
+                </Link>
+              </motion.div>
             )
           })
         ) : (
@@ -82,8 +88,8 @@ export default function MisEventos() {
         }
         <div className='fixed bottom-28 right-5'>
           <Link href={"/addTask"}>
-            <Fab size="large" className='bg-orange-400' aria-label="add">
-              <AddIcon className='text-white' />
+            <Fab size="large" className='bg-orange-400'>
+              <DeleteIcon className='text-white' />
             </Fab>
           </Link>
         </div>
